@@ -1,0 +1,409 @@
+{
+	"info": {
+		"_postman_id": "7e3efcab-7df5-48fb-84a6-69e5d5b1e651",
+		"name": "DAI 2026",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TP03",
+			"item": [
+				{
+					"name": "Matematica",
+					"item": [
+						{
+							"name": "sumar",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:{{port}}/matematica/sumar?n1=5&n2=3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{port}}",
+									"path": [
+										"matematica",
+										"sumar"
+									],
+									"query": [
+										{
+											"key": "n1",
+											"value": "5"
+										},
+										{
+											"key": "n2",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "restar",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/matematica/restar?n1=5&n2=3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"matematica",
+										"restar"
+									],
+									"query": [
+										{
+											"key": "n1",
+											"value": "5"
+										},
+										{
+											"key": "n2",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "multiplicar",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/matematica/multiplicar?n1=5&n2=3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"matematica",
+										"multiplicar"
+									],
+									"query": [
+										{
+											"key": "n1",
+											"value": "5"
+										},
+										{
+											"key": "n2",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "dividir",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/matematica/dividir?n1=5&n2=0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"matematica",
+										"dividir"
+									],
+									"query": [
+										{
+											"key": "n1",
+											"value": "5"
+										},
+										{
+											"key": "n2",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Alumnos",
+					"item": [
+						{
+							"name": "New Request",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/alumnos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"alumnos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "dni",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/alumnos/22888444",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"alumnos",
+										"22888444"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "maica",
+											"type": "text"
+										},
+										{
+											"key": "dni",
+											"value": "49192000",
+											"type": "text"
+										},
+										{
+											"key": "edad",
+											"value": "17",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/alumnos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"alumnos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Request",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "maica",
+											"type": "text"
+										},
+										{
+											"key": "dni",
+											"value": "49192000",
+											"type": "text"
+										},
+										{
+											"key": "edad",
+											"value": "17",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/alumnos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"alumnos"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "omdb-wrapper",
+					"item": [
+						{
+							"name": "searchbypage",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:{{port}}/omdb/searchbypage?search=cars&p=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{port}}",
+									"path": [
+										"omdb",
+										"searchbypage"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "cars"
+										},
+										{
+											"key": "p",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "searchcomplete",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/omdb/searchcomplete?search=nemo",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"omdb",
+										"searchcomplete"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "nemo"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getbyomdbid",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/omdb/getbyomdbid?imdbID=tt0317219",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"omdb",
+										"getbyomdbid"
+									],
+									"query": [
+										{
+											"key": "imdbID",
+											"value": "tt0317219"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "respondiendo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "saludar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/saludar/maica",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"saludar",
+								"maica"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validarfecha",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/validarfecha/2008/12/30",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"validarfecha",
+								"2008",
+								"12",
+								"30"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
