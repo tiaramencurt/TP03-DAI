@@ -10,14 +10,17 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
+//a1
 app.get('/', (req,res)=>{
     res.status(200).send("Ya estoy respondiendo!");
 });
 
+//a2
 app.get('/saludar/:nombre',(req,res)=>{
     res.status(200).send("Hola " + req.params.nombre);
 });
 
+//a3
 app.get('/validarfecha/:ano/:mes/:dia',(req,res)=>{
     let fecha = req.params.ano + "-" + req.params.mes + "-" + req.params.dia;
     console.log(fecha)
@@ -30,16 +33,60 @@ app.get('/validarfecha/:ano/:mes/:dia',(req,res)=>{
     }
 });
 
+//b1
 app.get('/matematica/sumar',(req,res)=>{
     let n1 = Number(req.query.n1);
     let n2 = Number(req.query.n2);
-    res.status(200).send({
-        resultado: sumar(n1,n2)
-    });
+    res.status(200).send(sumar(n1,n2));
 });
 
+//b2
+app.get('/matematica/restar',(req,res)=>{
+    let n1 = Number(req.query.n1);
+    let n2 = Number(req.query.n2);
+    res.status(200).send(restar(n1,n2));
+});
 
+//b3
+app.get('/matematica/multiplicar',(req,res)=>{
+    let n1 = Number(req.query.n1);
+    let n2 = Number(req.query.n2);
+    res.status(200).send(multiplicar(n1,n2));
+});
+
+//b4
+app.get('/matematica/dividir',(req,res)=>{
+    let n1 = Number(req.query.n1);
+    let n2 = Number(req.query.n2);
+    if(n2 == 0){
+        res.status(400).send("El divisor no puede ser cero");
+        return;
+    }
+    res.status(200).send(dividir(n1,n2));
+});
+
+//c1
+app.get('/omdb/searchbypage', async (req,res)=>{
+    let search = req.query.search;
+    let p = Number(req.query.p);
+    let resultado = await OMDBSearchByPage(search, p);
+    res.status(200).send(resultado);
+});
+
+//c2
+app.get('/omdb/searchcomplete', async (req,res)=>{
+    let search = req.query.search;
+    let resultado = await OMDBSearchComplete(search);
+    res.status(200).send(resultado);
+});
+
+//c3
+app.get('/omdb/getbyomdbid', async (req,res)=>{
+    let imdbID = req.query.imdbID;
+    let resultado = await OMDBGetByImdbID(imdbID);
+    res.status(200).send(resultado);
+});
 
 app.listen(port,()=>{
-    console.log("Server corriendo");
+    console.log(`Listening on http://localhost:${port}`);
 });

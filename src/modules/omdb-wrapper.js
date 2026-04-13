@@ -37,12 +37,10 @@ const OMDBSearchComplete = async (searchText) => {
         returnObject.respuesta = true;
         returnObject.cantidadTotal = firstPage.cantidadTotal;
         returnObject.datos = [];
-        // Copiamos los datos de la primera página al array final
         for (let i = 0; i < firstPage.datos.length; i++) {
             returnObject.datos.push(firstPage.datos[i]);
         }
         let totalPages = Math.ceil(firstPage.cantidadTotal / 10);
-        // Recorremos desde la página 2 hasta la última
         for (let i = 2; i <= totalPages; i++) {
             let pageData = await OMDBSearchByPage(searchText, i);
             for (let j = 0; j < pageData.datos.length; j++) {
