@@ -107,6 +107,56 @@ app.get('/omdb/getbyomdbid', async (req, res) => {
 
 
 //d
+const alumnosArray = [];
+alumnosArray.push(new Alumno("Esteban Dido","22888444",20));
+alumnosArray.push(new Alumno("Matias Queroso","28946255",51));
+alumnosArray.push(new Alumno("Elba Calao","32623391",18));
+
+//d1
+app.get('/alumnos',(req,res)=>{
+    res.status(200).send(alumnosArray);
+});
+
+//d2
+app.get('/alumnos/:dni',(req,res)=>{
+    let alumno = alumnosArray.find(a=>a.dni==req.params.dni);
+    if(alumno){
+        res.status(200).send(alumno);
+    }
+    else{
+        res.status(404).send("Alumno no encontrado");
+    }
+});
+
+
+app.use(express.urlencoded({extend:true}));
+
+//d3
+app.post('/alumnos', (req, res) => {
+    const { username, dni, edad } = req.body;
+    if (!username || !dni || !edad) {
+        return res.status(400).send("Faltan datos");
+    }
+    const existe = alumnosArray.find(alumno => alumno.dni === dni);
+    if (existe) {
+        return res.status(400).send("Ya existía");
+    }
+    let nuevoAlumno = new Alumno(username, dni, edad);
+    alumnosArray.push(nuevoAlumno);
+    res.status(200).send("Alumno creado");
+});
+
+//d4
+app.delete('/alumnos',(req,res)=>{
+    let index = alumnosArray.findIndex(a=>a.dni==req.body.dni);
+    if(index>=0){
+        alumnosArray.splice(index,1);
+        res.status(200).send("Alumno eliminado");
+    }
+    else{
+        res.status(404).send("Alumno no encontrado");
+    }
+});
 
 app.listen(port,()=>{
     console.log(`Listening on http://localhost:${port}`);
