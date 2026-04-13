@@ -65,27 +65,48 @@ app.get('/matematica/dividir',(req,res)=>{
     res.status(200).send(dividir(n1,n2));
 });
 
-//c1
-app.get('/omdb/searchbypage', async (req,res)=>{
-    let search = req.query.search;
-    let p = Number(req.query.p);
-    let resultado = await OMDBSearchByPage(search, p);
+// c1
+app.get('/omdb/searchbypage', async (req, res) => {
+  const search = req.query.search;
+  const p      = req.query.p;
+
+  try {
+    const resultado = await OMDBSearchByPage(search, p);
     res.status(200).send(resultado);
+  } catch (ex) {
+    console.log(ex.message);
+    res.status(500).send({ respuesta: false, cantidadTotal: 0, datos: [] });
+  }
 });
 
-//c2
-app.get('/omdb/searchcomplete', async (req,res)=>{
-    let search = req.query.search;
-    let resultado = await OMDBSearchComplete(search);
+// c2
+app.get('/omdb/searchcomplete', async (req, res) => {
+  const search = req.query.search;
+
+  try {
+    const resultado = await OMDBSearchComplete(search);
     res.status(200).send(resultado);
+  } catch (ex) {
+    console.log(ex.message);
+    res.status(500).send({ respuesta: false, cantidadTotal: 0, datos: [] });
+  }
 });
 
-//c3
-app.get('/omdb/getbyomdbid', async (req,res)=>{
-    let imdbID = req.query.imdbID;
-    let resultado = await OMDBGetByImdbID(imdbID);
+// c3
+app.get('/omdb/getbyomdbid', async (req, res) => {
+  const imdbID = req.query.imdbID;
+
+  try {
+    const resultado = await OMDBGetByImdbID(imdbID);
     res.status(200).send(resultado);
+  } catch (ex) {
+    console.log(ex.message);
+    res.status(500).send({ respuesta: false, datos: null });
+  }
 });
+
+
+//d
 
 app.listen(port,()=>{
     console.log(`Listening on http://localhost:${port}`);
