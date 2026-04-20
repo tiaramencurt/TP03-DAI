@@ -16,94 +16,119 @@ app.get('/', (req,res)=>{
 });
 
 //a2
-app.get('/saludar/:nombre',(req,res)=>{
-    res.status(200).send("Hola " + req.params.nombre);
+app.get("/saludar/:nombre", (req, res) => {
+    let nombre = ValidacionesHelper.getStringOrDefault(req.params.nombre, "Anónimo");
+    res.status(200).send("Hola " + nombre);
 });
+
 
 //a3
-app.get('/validarfecha/:ano/:mes/:dia',(req,res)=>{
-    let fecha = req.params.ano + "-" + req.params.mes + "-" + req.params.dia;
-    console.log(fecha)
-    let resultado = Date.parse(fecha);
-    if(isNaN(resultado)){
+app.get("/validarfecha/:ano/:mes/:dia", (req, res) => {
+    let ano = ValidacionesHelper.getIntegerOrDefault(req.params.ano, 0);
+    let mes = ValidacionesHelper.getIntegerOrDefault(req.params.mes, 0);
+    let dia = ValidacionesHelper.getIntegerOrDefault(req.params.dia, 0);
+    if (ano === 0 || mes === 0 || dia === 0) {
         res.status(400).send("Fecha inválida");
+        return;
     }
-    else{
-        res.status(200).send("Fecha válida");
+    let fecha = new Date(ano, mes - 1, dia);
+    if (!DateTimeHelper.isDate(fecha)) {
+        res.status(400).send("Fecha inválida");
+        return;
     }
+    res.status(200).send("Fecha válida");
 });
+
 
 //b1
-app.get('/matematica/sumar',(req,res)=>{
-    let n1 = Number(req.query.n1);
-    let n2 = Number(req.query.n2);
-    res.status(200).send(sumar(n1,n2));
+app.get("/matematica/sumar", (req, res) => {
+    let n1 = ValidacionesHelper.getIntegerOrDefault(req.query.n1, null);
+    let n2 = ValidacionesHelper.getIntegerOrDefault(req.query.n2, null);
+    if (n1 === null || n2 === null) {
+        res.status(400).send("n1 y n2 deben ser números");
+        return;
+    }
+    res.status(200).send({
+        resultado: sumar(n1, n2)
+    });
 });
+
 
 //b2
-app.get('/matematica/restar',(req,res)=>{
-    let n1 = Number(req.query.n1);
-    let n2 = Number(req.query.n2);
-    res.status(200).send(restar(n1,n2));
+app.get("/matematica/restar", (req, res) => {
+    let n1 = ValidacionesHelper.getIntegerOrDefault(req.query.n1, null);
+    let n2 = ValidacionesHelper.getIntegerOrDefault(req.query.n2, null);
+    if (n1 === null || n2 === null) {
+        res.status(400).send("n1 y n2 deben ser números");
+        return;
+    }
+    res.status(200).send({
+        resultado: restar(n1, n2)
+    });
 });
+
 
 //b3
-app.get('/matematica/multiplicar',(req,res)=>{
-    let n1 = Number(req.query.n1);
-    let n2 = Number(req.query.n2);
-    res.status(200).send(multiplicar(n1,n2));
+app.get("/matematica/multiplicar", (req, res) => {
+    let n1 = ValidacionesHelper.getIntegerOrDefault(req.query.n1, null);
+    let n2 = ValidacionesHelper.getIntegerOrDefault(req.query.n2, null);
+    if (n1 === null || n2 === null) {
+        res.status(400).send("n1 y n2 deben ser números");
+        return;
+    }
+    res.status(200).send({
+        resultado: multiplicar(n1, n2)
+    });
 });
 
+
 //b4
-app.get('/matematica/dividir',(req,res)=>{
-    let n1 = Number(req.query.n1);
-    let n2 = Number(req.query.n2);
-    if(n2 == 0){
+app.get("/matematica/dividir", (req, res) => {
+    let n1 = ValidacionesHelper.getIntegerOrDefault(req.query.n1, null);
+    let n2 = ValidacionesHelper.getIntegerOrDefault(req.query.n2, null);
+    if (n1 === null || n2 === null) {
+        res.status(400).send("n1 y n2 deben ser números");
+        return;
+    }
+    if (n2 === 0) {
         res.status(400).send("El divisor no puede ser cero");
         return;
     }
-    res.status(200).send(dividir(n1,n2));
+    res.status(200).send({
+        resultado: dividir(n1, n2)
+    });
 });
 
 // c1
-app.get('/omdb/searchbypage', async (req, res) => {
-  const search = req.query.search;
-  const p      = req.query.p;
-
-  try {
-    const resultado = await OMDBSearchByPage(search, p);
+app.get("/omdb/searchbypage", async (req, res) => {
+    let search = ValidacionesHelper.getStringOrDefault(req.query.search, "");
+    let p = ValidacionesHelper.getIntegerOrDefault( req.query.p, 1);
+    let resultado = await OMDBSearchByPage(search, p);
     res.status(200).send(resultado);
-  } catch (ex) {
-    console.log(ex.message);
-    res.status(500).send({ respuesta: false, cantidadTotal: 0, datos: [] });
-  }
 });
 
 // c2
-app.get('/omdb/searchcomplete', async (req, res) => {
-  const search = req.query.search;
-
-  try {
-    const resultado = await OMDBSearchComplete(search);
+app.get("/omdb/searchcomplete", async (req, res) => {
+    let search = ValidacionesHelper.getStringOrDefault(req.query.search, "");
+    if (search === "") {res.status(400).send("Falta search"); return;
+    }
+    let resultado = await OMDBSearchComplete(search);
     res.status(200).send(resultado);
-  } catch (ex) {
-    console.log(ex.message);
-    res.status(500).send({ respuesta: false, cantidadTotal: 0, datos: [] });
-  }
 });
+
 
 // c3
-app.get('/omdb/getbyomdbid', async (req, res) => {
-  const imdbID = req.query.imdbID;
-
-  try {
-    const resultado = await OMDBGetByImdbID(imdbID);
+app.get("/omdb/getbyimdbid", async (req, res) => {
+    let imdbID = ValidacionesHelper.getStringOrDefault(req.query.imdbID, ""
+    );
+    if (imdbID === "") {
+        res.status(400).send("Falta imdbID");
+        return;
+    }
+    let resultado = await OMDBGetByImdbID(imdbID);
     res.status(200).send(resultado);
-  } catch (ex) {
-    console.log(ex.message);
-    res.status(500).send({ respuesta: false, datos: null });
-  }
 });
+
 
 
 //d
@@ -118,45 +143,47 @@ app.get('/alumnos',(req,res)=>{
 });
 
 //d2
-app.get('/alumnos/:dni',(req,res)=>{
-    let alumno = alumnosArray.find(a=>a.dni==req.params.dni);
-    if(alumno){
+app.get("/alumnos/:dni", (req, res) => {
+    let dni = ValidacionesHelper.getStringOrDefault(req.params.dni, "");
+    let alumno = alumnosArray.find(a => a.dni == dni);
+    if (alumno) {
         res.status(200).send(alumno);
-    }
-    else{
+    } else {
         res.status(404).send("Alumno no encontrado");
     }
 });
+
 
 
 app.use(express.urlencoded({extend:true}));
 
 //d3
-app.post('/alumnos', (req, res) => {
-    const { username, dni, edad } = req.body;
-    if (!username || !dni || !edad) {
-        return res.status(400).send("Faltan datos");
-    }
-    const existe = alumnosArray.find(alumno => alumno.dni === dni);
-    if (existe) {
-        return res.status(400).send("Ya existía");
+app.post("/alumnos", (req, res) => {
+    let username = ValidacionesHelper.getStringOrDefault(req.body.username,"");
+    let dni = ValidacionesHelper.getStringOrDefault(req.body.dni, "");
+    let edad = ValidacionesHelper.getIntegerOrDefault(req.body.edad,0);
+    if (username === "" || dni === "" || edad <= 0) {
+        res.status(400).send("Datos inválidos");
+        return;
     }
     let nuevoAlumno = new Alumno(username, dni, edad);
     alumnosArray.push(nuevoAlumno);
-    res.status(200).send("Alumno creado");
+    res.status(201).send("Alumno creado");
 });
 
+
 //d4
-app.delete('/alumnos',(req,res)=>{
-    let index = alumnosArray.findIndex(a=>a.dni==req.body.dni);
-    if(index>=0){
-        alumnosArray.splice(index,1);
+app.delete("/alumnos", (req, res) => {
+    let dni = ValidacionesHelper.getStringOrDefault(req.body.dni,"");
+    let index = alumnosArray.findIndex(a => a.dni == dni);
+    if (index >= 0) {
+        alumnosArray.splice(index, 1);
         res.status(200).send("Alumno eliminado");
-    }
-    else{
+    } else {
         res.status(404).send("Alumno no encontrado");
     }
 });
+
 
 app.listen(port,()=>{
     console.log(`Listening on http://localhost:${port}`);
