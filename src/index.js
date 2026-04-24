@@ -31,7 +31,7 @@ app.get("/validarfecha/:ano/:mes/:dia", (req, res) => {
         res.status(400).send("Fecha inválida");
         return;
     }
-    let fecha = new Date(ano, mes - 1, dia);
+    let fecha = new Date(ano, mes, dia);
     if (!DateTimeHelper.isDate(fecha)) {
         res.status(400).send("Fecha inválida");
         return;
@@ -45,7 +45,7 @@ app.get("/matematica/sumar", (req, res) => {
     let n1 = ValidacionesHelper.getIntegerOrDefault(req.query.n1, null);
     let n2 = ValidacionesHelper.getIntegerOrDefault(req.query.n2, null);
     if (n1 === null || n2 === null) {
-        res.status(400).send("n1 y n2 deben ser números");
+        res.status(400).send("n1 y n2 tienen que ser números");
         return;
     }
     res.status(200).send({
@@ -59,7 +59,7 @@ app.get("/matematica/restar", (req, res) => {
     let n1 = ValidacionesHelper.getIntegerOrDefault(req.query.n1, null);
     let n2 = ValidacionesHelper.getIntegerOrDefault(req.query.n2, null);
     if (n1 === null || n2 === null) {
-        res.status(400).send("n1 y n2 deben ser números");
+        res.status(400).send("n1 y n2 tienen que ser números");
         return;
     }
     res.status(200).send({
@@ -73,7 +73,7 @@ app.get("/matematica/multiplicar", (req, res) => {
     let n1 = ValidacionesHelper.getIntegerOrDefault(req.query.n1, null);
     let n2 = ValidacionesHelper.getIntegerOrDefault(req.query.n2, null);
     if (n1 === null || n2 === null) {
-        res.status(400).send("n1 y n2 deben ser números");
+        res.status(400).send("n1 y n2 tienen que ser números");
         return;
     }
     res.status(200).send({
@@ -87,7 +87,7 @@ app.get("/matematica/dividir", (req, res) => {
     let n1 = ValidacionesHelper.getIntegerOrDefault(req.query.n1, null);
     let n2 = ValidacionesHelper.getIntegerOrDefault(req.query.n2, null);
     if (n1 === null || n2 === null) {
-        res.status(400).send("n1 y n2 deben ser números");
+        res.status(400).send("n1 y n2 tienen que ser números");
         return;
     }
     if (n2 === 0) {
@@ -119,8 +119,7 @@ app.get("/omdb/searchcomplete", async (req, res) => {
 
 // c3
 app.get("/omdb/getbyimdbid", async (req, res) => {
-    let imdbID = ValidacionesHelper.getStringOrDefault(req.query.imdbID, ""
-    );
+    let imdbID = ValidacionesHelper.getStringOrDefault(req.query.imdbID, "");
     if (imdbID === "") {
         res.status(400).send("Falta imdbID");
         return;

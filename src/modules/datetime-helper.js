@@ -1,8 +1,7 @@
 class DateTimeHelper {
 
     isDate = (fecha) => {
-        return fecha instanceof Date &&
-               !isNaN(fecha.getTime());
+        return fecha instanceof Date && !isNaN(fecha.getTime());
     };
 
     getOnlyDate = (fecha = new Date()) => {
