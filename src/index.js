@@ -3,6 +3,8 @@ import cors from "cors";
 import Alumno from "./models/alumno.js";
 import {sumar, restar, multiplicar, dividir} from "./modules/matematica.js";
 import {OMDBSearchByPage, OMDBSearchComplete, OMDBGetByImdbID} from "./modules/omdb-wrapper.js";
+import ValidacionesHelper from "./modules/validaciones-helper.js";
+import DateTimeHelper from "./modules/datetime-helper.js";
 
 const app = express();
 const port = 3000;
@@ -183,6 +185,105 @@ app.delete("/alumnos", (req, res) => {
     }
 });
 
+app.get("/fechas/isDate", (req, res) => {
+    let fecha = ValidacionesHelper.getDateOrDefault(
+        req.query.fecha,
+        null
+    );
+
+    res.status(200).send({
+        valido: DateTimeHelper.isDate(fecha)
+    });
+});
+
+app.get("/fechas/getEdadActual", (req, res) => {
+    let fechaNacimiento =
+        ValidacionesHelper.getDateOrDefault(
+            req.query.fechaNacimiento,
+            null
+        );
+
+    if (!DateTimeHelper.isDate(fechaNacimiento)) {
+        res.status(400).send("Fecha inválida");
+        return;
+    }
+
+    res.status(200).send({
+        edad: DateTimeHelper.getEdadActual(
+            fechaNacimiento
+        )
+    });
+});
+
+app.get("/fechas/getDiasHastaMiCumple", (req, res) => {
+    let fechaNacimiento =
+        ValidacionesHelper.getDateOrDefault(
+            req.query.fechaNacimiento,
+            null
+        );
+
+    if (!DateTimeHelper.isDate(fechaNacimiento)) {
+        res.status(400).send("Fecha inválida");
+        return;
+    }
+
+    res.status(200).send({
+        diasRestantes:
+            DateTimeHelper.getDiasHastaMiCumple(
+                fechaNacimiento
+            )
+    });
+});
+
+app.get("/fechas/getDiaTexto", (req, res) => {
+    let fecha = ValidacionesHelper.getDateOrDefault(
+        req.query.fecha,
+        null
+    );
+
+    let abr =
+        ValidacionesHelper.getBooleanOrDefault(
+            req.query.abr,
+            false
+        );
+
+    if (!DateTimeHelper.isDate(fecha)) {
+        res.status(400).send("Fecha inválida");
+        return;
+    }
+
+    res.status(200).send({
+        dia: DateTimeHelper.getDiaTexto(
+            fecha,
+            abr
+        )
+    });
+});
+
+app.get("/fechas/getMesTexto", (req, res) => {
+    let fecha = ValidacionesHelper.getDateOrDefault(
+        req.query.fecha,
+        null
+    );
+
+    let abr =
+        ValidacionesHelper.getBooleanOrDefault(
+            req.query.abr,
+            false
+        );
+
+    if (!DateTimeHelper.isDate(fecha)) {
+        res.status(400).send("Fecha inválida");
+        return;
+    }
+
+    res.status(200).send({
+        mes: DateTimeHelper.getMesTexto(
+            fecha,
+            abr
+        )
+    });
+});
 
 app.listen(port,()=>{
     console.log(`Listening on http://localhost:${port}`);

@@ -62,9 +62,9 @@ class DateTimeHelper {
             "Sáb"
         ];
         if (retornarAbreviacion) {
-            return diasAbr[fecha.getDay()];
+            return diasAbr[fecha.getUTCDay()];
         }
-        return dias[fecha.getDay()];
+        return dias[fecha.getUTCDay()];
     };
 
     getMesTexto = (fecha, retornarAbreviacion = false) => {
